@@ -1,0 +1,20 @@
+{
+  "name": "img-compression-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "blob": "^0.1.0",
+    "chalk": "^4.1.1",
+    "compress-images": "^1.9.9",
+    "image-conversion": "^2.1.1",
+    "pngquant-bin": "^6.0.0",
+    "sharp": "^0.28.3",
+    "yargs": "^17.0.1"
+  }
+}
