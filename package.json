@@ -11,6 +11,7 @@
   "dependencies": {
     "blob": "^0.1.0",
     "chalk": "^4.1.1",
+    "changedpi": "^1.0.4",
     "compress-images": "^1.9.9",
     "image-conversion": "^2.1.1",
     "pngquant-bin": "^6.0.0",

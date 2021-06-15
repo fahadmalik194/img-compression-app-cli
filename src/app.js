@@ -7,6 +7,7 @@ const compressBySize = require('./compressBySize')
 const compressBySharp = require('./compressBySharp')
 const toJPEG = require('./toJPEG')
 const toPNG = require('./toPNG')
+const { toDataURL, toBlob } = require('./changeDPI')
 
 //customize app version using yargs
 yargs.version('1.0.0')
@@ -42,10 +43,10 @@ yargs.command({
             console.log(chalk.red.inverse('Error: Invalid Image Dimensions: (' + argv.width, 'x', argv.height + ')'))
         } else if ((!argv.inputPath || !argv.outputPath || argv.inputPath === "" || argv.outputPath === "")) {
             console.log(chalk.red.inverse('Error: I/O paths cannot be empty'))
-        } else if (!(fs.existsSync(argv.inputPath))){
+        } else if (!(fs.existsSync(argv.inputPath))) {
             console.log(chalk.red.inverse('Error: Invalid Src Path, No such file or directory'))
             console.log(chalk.redBright('Image_Src_Path: "' + argv.inputPath + '"'))
-        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())){
+        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())) {
             console.log(chalk.red.inverse('Error: Invalid Destination Path, No such directory'))
             console.log(chalk.redBright('Image_Destination_Path: "' + argv.outputPath + '"'))
         } else {
@@ -78,13 +79,13 @@ yargs.command({
     handler(argv) {
         if ((!argv.inputPath || !argv.outputPath || argv.inputPath === "" || argv.outputPath === "")) {
             console.log(chalk.red.inverse('Error: I/O paths cannot be empty'))
-        } else if (!(fs.existsSync(argv.inputPath))){
+        } else if (!(fs.existsSync(argv.inputPath))) {
             console.log(chalk.red.inverse('Error: Invalid Src Path, No such file or directory'))
             console.log(chalk.redBright('Image_Src_Path: "' + argv.inputPath + '"'))
-        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())){
+        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())) {
             console.log(chalk.red.inverse('Error: Invalid Destination Path, No such directory'))
             console.log(chalk.redBright('Image_Destination_Path: "' + argv.outputPath + '"'))
-        } else if (!argv.rate || argv.rate <= 0 || argv.rate > 10){
+        } else if (!argv.rate || argv.rate <= 0 || argv.rate > 10) {
             console.log(chalk.red.inverse('Compression Rate value is invalid - it should be in range (1-10)'))
         } else {
             compressByRate.compressImage(argv.rate, argv.inputPath, argv.outputPath)
@@ -116,13 +117,13 @@ yargs.command({
     handler(argv) {
         if ((!argv.inputPath || !argv.outputPath || argv.inputPath === "" || argv.outputPath === "")) {
             console.log(chalk.red.inverse('Error: I/O paths cannot be empty'))
-        } else if (!(fs.existsSync(argv.inputPath))){
+        } else if (!(fs.existsSync(argv.inputPath))) {
             console.log(chalk.red.inverse('Error: Invalid Src Path, No such file or directory'))
             console.log(chalk.redBright('Image_Src_Path: "' + argv.inputPath + '"'))
-        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())){
+        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())) {
             console.log(chalk.red.inverse('Error: Invalid Destination Path, No such directory'))
             console.log(chalk.redBright('Image_Destination_Path: "' + argv.outputPath + '"'))
-        } else if (!argv.size || argv.size <= 0){
+        } else if (!argv.size || argv.size <= 0) {
             console.log(chalk.red.inverse('Compression Size value is invalid'))
         } else {
             compressBySize.compressImage(argv.size, argv.inputPath, argv.outputPath)
@@ -149,10 +150,10 @@ yargs.command({
     handler(argv) {
         if ((!argv.inputPath || !argv.outputPath || argv.inputPath === "" || argv.outputPath === "")) {
             console.log(chalk.red.inverse('Error: I/O paths cannot be empty'))
-        } else if (!(fs.existsSync(argv.inputPath))){
+        } else if (!(fs.existsSync(argv.inputPath))) {
             console.log(chalk.red.inverse('Error: Invalid Src Path, No such file or directory'))
             console.log(chalk.redBright('Image_Src_Path: "' + argv.inputPath + '"'))
-        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())){
+        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())) {
             console.log(chalk.red.inverse('Error: Invalid Destination Path, No such directory'))
             console.log(chalk.redBright('Image_Destination_Path: "' + argv.outputPath + '"'))
         } else {
@@ -180,10 +181,10 @@ yargs.command({
     handler(argv) {
         if ((!argv.inputPath || !argv.outputPath || argv.inputPath === "" || argv.outputPath === "")) {
             console.log(chalk.red.inverse('Error: I/O paths cannot be empty'))
-        } else if (!(fs.existsSync(argv.inputPath))){
+        } else if (!(fs.existsSync(argv.inputPath))) {
             console.log(chalk.red.inverse('Error: Invalid Src Path, No such file or directory'))
             console.log(chalk.redBright('Image_Src_Path: "' + argv.inputPath + '"'))
-        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())){
+        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())) {
             console.log(chalk.red.inverse('Error: Invalid Destination Path, No such directory'))
             console.log(chalk.redBright('Image_Destination_Path: "' + argv.outputPath + '"'))
         } else {
@@ -211,15 +212,58 @@ yargs.command({
     handler(argv) {
         if ((!argv.inputPath || !argv.outputPath || argv.inputPath === "" || argv.outputPath === "")) {
             console.log(chalk.red.inverse('Error: I/O paths cannot be empty'))
-        } else if (!(fs.existsSync(argv.inputPath))){
+        } else if (!(fs.existsSync(argv.inputPath))) {
             console.log(chalk.red.inverse('Error: Invalid Src Path, No such file or directory'))
             console.log(chalk.redBright('Image_Src_Path: "' + argv.inputPath + '"'))
-        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())){
+        } else if (!(fs.existsSync(argv.outputPath) && fs.lstatSync(argv.outputPath).isDirectory())) {
             console.log(chalk.red.inverse('Error: Invalid Destination Path, No such directory'))
             console.log(chalk.redBright('Image_Destination_Path: "' + argv.outputPath + '"'))
         } else {
             toPNG.convertIntoPNG(argv.inputPath, argv.outputPath)
         }
+    }
+})
+
+//From a Canvas Element to DataUrl Command:
+yargs.command({
+    command: 'toDataURL',
+    describe: 'Add canvas width & canvas height of your image',
+    builder: {
+        canvasWidth: {
+            describe: 'Add Image Width (Canvas)',
+            required: true,
+            type: 'number'
+        },
+        canvasHeight: {
+            describe: 'Add Image Height (Canvas)',
+            required: true,
+            type: 'number'
+        }
+    },
+    handler(argv) {
+        toDataURL.toDataURL(argv.canvasWidth, argv.canvasHeight)
+    }
+})
+
+//From a Canvas Element to Blob Command:
+yargs.command({
+    command: 'toBlob',
+    describe: 'Add canvas width & canvas height of your image',
+    builder: {
+        canvasWidth: {
+            describe: 'Add Image Width (Canvas)',
+            required: true,
+            type: 'number'
+        },
+        canvasHeight: {
+            describe: 'Add Image Height (Canvas)',
+            required: true,
+            type: 'number'
+        }
+    },
+    handler(argv) {
+        toBlob.toBlob(argv.canvasWidth, argv.canvasHeight)
+
     }
 })
 
